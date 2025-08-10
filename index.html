@@ -2,29 +2,22 @@
 <html lang="sv">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Albihns Q&A</title>
-
-  
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
-<link rel="apple-touch-startup-image" href="icons/splash-2048x2732.png" media="(orientation: portrait)">
-<link rel="apple-touch-startup-image" href="icons/splash-2732x2048.png" media="(orientation: landscape)">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Albihns Q&A">
-<meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#0b1220">
-
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="apple-touch-startup-image" href="icons/splash-2048x2732.png" media="(orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="icons/splash-2732x2048.png" media="(orientation: landscape)">
   <style>
     :root{
       --bg:#0b1220; --ink:#e5e7eb; --muted:#94a3b8;
       --card:#0f172a; --edge:#1f2937;
       --accent:#22d3ee; --accent2:#a78bfa; --good:#34d399; --warn:#f59e0b; --danger:#ef4444;
       --c-geo:#2dd4bf; --c-und:#f59e0b; --c-hist:#f43f5e; --c-art:#a78bfa; --c-sci:#22c55e; --c-sport:#3b82f6;
-      --team1:#2563eb; /* blå */
-      --team2:#ef4444; /* röd */
+      --team1:#2563eb; --team2:#ef4444;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -44,14 +37,7 @@
       overscroll-behavior: none;
       touch-action: manipulation;
     }
-    @media (orientation:portrait){
-      body::before{
-        content:"Rotera till liggande läge (landskap)";
-        position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
-        background:rgba(15,23,42,.96); color:white; z-index:9999; text-align:center; padding:24px; font-weight:700;
-      }
-    }
-    .app{width:min(980px,100%)}
+    .app{width:min(820px,100%)}
     header{display:flex; gap:8px; align-items:center; justify-content:space-between; margin-bottom:8px}
     .brand{display:flex; gap:8px; align-items:center}
     .logo{width:22px; height:22px; border-radius:6px; background:linear-gradient(135deg,var(--accent),var(--accent2)); box-shadow:0 0 0 2px rgba(255,255,255,.06) inset}
@@ -70,31 +56,27 @@
     .points{font-weight:800}
 
     .stage{perspective:1200px}
-    .card-wrap{ position:relative; height:clamp(320px, 56svh, 520px); }
+    .card-wrap{ position:relative; height:clamp(420px, 62svh, 720px); }
     .card{ position:absolute; inset:0; transform-style:preserve-3d; transition:transform .5s cubic-bezier(.2,.7,.2,1) }
     .card.flipped{ transform:rotateY(180deg) }
     .side{
       position:absolute; inset:0; background:
-        linear-gradient(180deg, rgba(255,255,255,.02), transparent 120px),
-        radial-gradient(600px 300px at 0% 0%, rgba(34,211,238,.12), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.03), transparent 120px),
+        radial-gradient(900px 400px at 10% -10%, rgba(34,211,238,.10), transparent 60%),
         var(--card);
-      border:1px solid var(--edge); border-radius:14px; padding:10px; backface-visibility:hidden;
+      border:1px solid #223046; border-radius:14px; padding:10px; backface-visibility:hidden;
       display:flex; flex-direction:column; min-height:0;
-      box-shadow: 0 6px 20px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.03);
+      box-shadow: 0 10px 28px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.04);
     }
     .side.back{ transform:rotateY(180deg) }
-
-    /* Fade-in animation when loading a new card */
-    .fade-in{ animation: fadeIn .3s ease }
-    @keyframes fadeIn{ from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none} }
 
     .header-row{display:flex; gap:10px; align-items:center}
     .nextTop{
       margin-right:auto; font-weight:900; font-size:13px; padding:6px 12px; border:none; color:#0b1220; border-radius:999px; cursor:pointer;
       display:flex; align-items:center; gap:8px;
     }
-    .nextTop.team1{ background:var(--team1); }
-    .nextTop.team2{ background:var(--team2); }
+    .nextTop.team1{ background:var(--team1) }
+    .nextTop.team2{ background:var(--team2) }
     .nextTop svg{ width:16px; height:16px; fill:#0b1220; transition: transform .3s ease }
     .nextTop.spin svg{ transform: rotate(360deg) }
 
@@ -103,12 +85,12 @@
     .cardScore{margin-left:8px; font-weight:800; font-size:11px; color:#d1fae5; background:linear-gradient(135deg,#059669,#34d399);
           padding:5px 8px; border-radius:999px}
 
-    /* ONE-COLUMN LIST */
-    .list{ margin-top:8px; flex:1; display:grid; grid-template-columns: 1fr; grid-auto-rows: minmax(0, 1fr); gap:6px; overflow:hidden }
+    .list{ margin-top:6px; flex:1; display:grid; grid-template-columns: 1fr; grid-auto-rows: minmax(0, 1fr); gap:4px; overflow:hidden }
     .item{
       display:grid; grid-template-columns: 22px 1fr auto; align-items:center; gap:6px;
-      border:1px dashed rgba(255,255,255,.08); border-radius:10px; padding:8px;
-      min-height: 52px;
+      border:1px dashed rgba(255,255,255,.10); border-radius:10px; padding:6px 8px;
+      min-height: 46px;
+      background: rgba(255,255,255,.02);
     }
     .idx{ width:22px;height:22px;display:grid;place-items:center;font-size:11px;font-weight:800;color:#0a0a0a;
           background:linear-gradient(135deg,var(--accent),var(--accent2)); border-radius:7px }
@@ -118,30 +100,25 @@
     .mark{ display:flex; align-items:center; gap:6px }
     .mark input{ width:18px; height:18px }
 
-    .footer{margin-top:8px; display:flex; gap:6px; justify-content:space-between; align-items:center}
+    .footer{margin-top:6px; display:flex; gap:6px; justify-content:space-between; align-items:center}
     .ghost{ background:transparent; border:1px dashed var(--edge); color:#94a3b8; padding:8px 10px; border-radius:8px; font-size:13px }
     .primary{ padding:8px 10px; border-radius:8px; font-size:13px }
     .hint{font-size:11px; color:#94a3b8}
     .error{ color:#fca5a5; font-size:12px; margin:6px 0 0; font-weight:600 }
 
-    /* TIMER */
     .timerWrap{ display:flex; align-items:center; gap:8px; }
-    .timerCircle{ position:relative; width:46px; height:46px; }
+    .timerCircle{ position:relative; width:48px; height:48px; cursor:pointer }
     .timerCircle svg{ transform:rotate(-90deg); }
     .timerCircle .bg{ stroke:#334155; }
     .timerCircle .prog{ transition:stroke-dashoffset .1s linear; }
-    .timerCircle .num{ position:absolute; inset:0; display:grid; place-items:center; font-weight:800; font-size:12px; color:#e5e7eb }
-    .timerControls{ display:flex; gap:6px }
-    .timerControls button{ padding:6px 8px }
+    .timerCircle .num{ position:absolute; inset:0; display:grid; place-items:center; font-weight:900; font-size:12px; color:#e5e7eb }
 
-    /* MODALS */
     .modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(2,6,23,.74); z-index:10000}
     .sheet{width:min(720px, 92vw); background:#0b1220; border:1px solid var(--edge); border-radius:16px; padding:16px 14px}
     .sheet h2{margin:0 0 8px; font-size:18px}
     .grid{display:grid; grid-template-columns: 1fr 1fr; gap:10px}
     .row{display:flex; gap:10px; align-items:center; margin-top:10px}
 
-    /* START MENU */
     .startModal{display:flex}
     .startHeader{display:flex; gap:10px; align-items:center; margin-bottom:10px}
     .startTitle{font-size:20px; font-weight:900}
@@ -151,7 +128,6 @@
     .startActions{display:flex; gap:8px; justify-content:flex-end; margin-top:12px}
     .subtle{font-size:12px; color:#94a3b8}
 
-    /* Stats modal */
     .barRow{ display:grid; grid-template-columns: 130px 1fr; gap:8px; align-items:center; margin:6px 0 }
     .barLabel{ display:flex; align-items:center; gap:6px; font-size:13px; color:#e5e7eb }
     .barLabel svg{ width:14px; height:14px; fill:#9ca3af }
@@ -168,28 +144,9 @@
     .art .fill{ background:linear-gradient(90deg, var(--c-art), #8b5cf6) }
     .sci .fill{ background:linear-gradient(90deg, var(--c-sci), #16a34a) }
     .sport .fill{ background:linear-gradient(90deg, var(--c-sport), #2563eb) }
-  
-/* Portrait optimizations */
-@media (orientation: portrait){
-  body{ padding: max(6px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left)); }
-  .app{ width: 100%; }
-  header h1{ font-size: 15px; }
-  .controls select, .controls button{ padding:5px 8px; font-size:12px }
-  .timerCircle{ width:40px; height:40px }
-  .timerCircle .num{ font-size:11px }
-  .scorebar .team{ padding:4px 6px; font-size:12px }
-  .badge{ font-size:11px; }
-  .card-wrap{ height: clamp(420px, 62svh, 720px); }
-  .list .item{ min-height: 48px; padding:6px }
-  .idx{ width:20px; height:20px; font-size:10px }
-  .qa{ font-size:12.5px }
-  .cat{ font-size:10.5px }
-  .ghost, .primary{ padding:7px 9px; font-size:12px }
-}
-</style>
+  </style>
 </head>
 <body>
-<!-- SVG sprite for categories and refresh icon -->
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
   <symbol id="geo" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20Zm-1 2.1A8 8 0 0119.9 11h-3.1l-2-2-3 1-1-2-1.8-.9ZM4.1 13A8 8 0 0111 4.1V8l2 2-1 3-4 1-3-.5Zm7.9 6.9A8 8 0 014.6 15l3.4.6 4-1 1.5 1.5V20Z"/></symbol>
   <symbol id="film" viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2Zm0 3v10h16V7H4Zm3-1h2v2H7V6Zm0 4h2v2H7v-2Zm0 4h2v2H7v-2Zm10-8h2v2h-2V6Zm0 4h2v2h-2v-2Zm0 4h2v2h-2v-2Z"/></symbol>
@@ -202,7 +159,6 @@
   </symbol>
 </svg>
 
-<!-- Beep sound -->
 <audio id="beep" preload="auto" src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABYAAAEsAAACAAACc2luZQAAABAAAAAAgACAgICAgP8AAP8AAAAAAICAgP8AAP8AAAAAgICA/////w8PDw8PDw8PDw8PDw8PDw8PDw8P"></audio>
 
 <div class="app">
@@ -220,22 +176,17 @@
         <option value="mix">Mix</option>
       </select>
       <div class="timerWrap" title="30 sekunder">
-        <div class="timerCircle">
-          <svg width="46" height="46" viewBox="0 0 44 44">
+        <div id="timer" class="timerCircle">
+          <svg width="48" height="48" viewBox="0 0 44 44">
             <circle class="bg" cx="22" cy="22" r="18" stroke-width="6" fill="none" />
             <circle id="circProg" class="prog" cx="22" cy="22" r="18" stroke-width="6" fill="none"
               stroke-linecap="round" stroke="var(--good)" stroke-dasharray="113.097" stroke-dashoffset="0" />
           </svg>
           <div id="timeNum" class="num">30</div>
         </div>
-        <div class="timerControls">
-          <button id="tStart" class="ghost">Start</button>
-          <button id="tStop" class="ghost">Stop</button>
-          <button id="tReset" class="ghost">Reset</button>
-        </div>
       </div>
       <button id="openStats" class="ghost">Statistik</button>
-      <button id="resetBtn" class="ghost">Nollställ</button>
+      <button id="newGame" class="primary">Nytt spel</button>
     </div>
   </header>
 
@@ -280,7 +231,6 @@
   <p id="err" class="error" hidden></p>
 </div>
 
-<!-- START MENU -->
 <div id="startMenu" class="modal startModal" style="display:flex">
   <div class="sheet">
     <div class="startHeader">
@@ -304,7 +254,6 @@
   </div>
 </div>
 
-<!-- STATS MODAL -->
 <div id="statsModal" class="modal">
   <div class="sheet">
     <div class="row">
@@ -327,33 +276,31 @@ const err = byId('err'); const turnInfo = byId('turnInfo'), turnInfoBack = byId(
 const t1Box = byId('t1'), t2Box = byId('t2'), t1Name = byId('t1Name'), t2Name = byId('t2Name'), t1Pts = byId('t1Pts'), t2Pts = byId('t2Pts');
 const nextTop = byId('nextTop');
 
-// Timer elements
-const circProg = byId('circProg'), timeNum = byId('timeNum');
-const tStart = byId('tStart'), tStop = byId('tStop'), tReset = byId('tReset');
+const timerEl = byId('timer'), circProg = byId('circProg'), timeNum = byId('timeNum');
 const beep = document.getElementById('beep');
 
-// Start & Stats modals
 const startMenu = byId('startMenu'), startBtn = byId('startBtn'), name1 = byId('name1'), name2 = byId('name2');
 const statsModal = byId('statsModal'), openStats = byId('openStats'), closeStats = byId('closeStats'), statsBody = byId('statsBody');
+const newGameBtn = byId('newGame');
 
-const STORAGE_KEY = "albihns-quiz-state-compact-v4";
-
+const STORAGE_KEY = "albihns-quiz-state-v5";
 let teams = [
   { name:"Lag 1", points:0, correct:{}, attempts:{} },
   { name:"Lag 2", points:0, correct:{}, attempts:{} }
 ];
-CATEGORIES.forEach(c=>{ teams[0].correct[c]=0; teams[0].attempts[c]=0; teams[1].correct[c]=0; teams[1].attempts[c]=0; });
+const CATS = CATEGORIES;
+CATS.forEach(c=>{ teams[0].correct[c]=0; teams[0].attempts[c]=0; teams[1].correct[c]=0; teams[1].attempts[c]=0; });
 
 let turn = 0;
-let current = [];        // [{q,a,c} x6]
+let current = [];
 let marked = [false,false,false,false,false,false];
 
-// Timer state
-const TIMER_DUR = 30000; // 30 sek
-const CIRC_PERIM = 113.097; // matches SVG
+const TIMER_DUR = 30000;
+const CIRC_PERIM = 113.097;
 let timerRunning = false;
 let timerEndAt = 0;
 let timerTick = null;
+let timerFinished = false;
 
 const LOCAL_FALLBACK = [
   {q:"Sveriges största sjö?", a:"Vänern", c:"Geografi"},
@@ -365,288 +312,44 @@ const LOCAL_FALLBACK = [
 ];
 
 function iconSvg(id){ return `<svg aria-hidden="true" width="12" height="12"><use href="#${id}"></use></svg>`; }
-
-function setNextTopColor(){
-  nextTop.classList.toggle('team1', turn===0);
-  nextTop.classList.toggle('team2', turn===1);
-}
-
+function setNextTopColor(){ nextTop.classList.toggle('team1', turn===0); nextTop.classList.toggle('team2', turn===1); }
 function updateHeader(){
-  t1Name.textContent = teams[0].name; t2Name.textContent = teams[1].name;
-  t1Pts.textContent = teams[0].points + "p"; t2Pts.textContent = teams[1].points + "p";
-  t1Box.classList.toggle('active', turn===0); t2Box.classList.toggle('active', turn===1);
+  byId('t1Name').textContent = teams[0].name; byId('t2Name').textContent = teams[1].name;
+  byId('t1Pts').textContent = teams[0].points + "p"; byId('t2Pts').textContent = teams[1].points + "p";
+  byId('t1').classList.toggle('active', turn===0); byId('t2').classList.toggle('active', turn===1);
   turnInfo.textContent = `Tur: ${teams[turn].name}`;
   turnInfoBack.textContent = `Tur: ${teams[turn].name}`;
   setNextTopColor();
 }
 
-function applyFade(){
-  // add fade-in class briefly
-  const front = card.querySelector('.side.front');
-  const back = card.querySelector('.side.back');
-  front.classList.add('fade-in');
-  back.classList.add('fade-in');
-  setTimeout(()=>{ front.classList.remove('fade-in'); back.classList.remove('fade-in'); }, 320);
-}
-
-function renderFront(){
-  qList.innerHTML = current.map((item, i)=>`
-    <div class="item">
-      <div class="idx">${i+1}</div>
-      <div class="qa">
-        <div>${item.q}</div>
-        <div class="cat">${iconSvg(CAT_ICON_ID[item.c]||"geo")}<span>${item.c}</span></div>
-      </div>
-      <div style="opacity:.5">—</div>
-    </div>
-  `).join("");
-}
-
-function renderBack(){
-  aList.innerHTML = current.map((item, i)=>`
-    <div class="item">
-      <div class="idx">${i+1}</div>
-      <div class="qa">
-        <div><b>Svar:</b> ${item.a}</div>
-        <div class="cat">${iconSvg(CAT_ICON_ID[item.c]||"geo")}<span>${item.c}</span></div>
-      </div>
-      <label class="mark">
-        <input type="checkbox" ${marked[i] ? "checked":""} data-ix="${i}"/>
-        <span>Rätt</span>
-      </label>
-    </div>
-  `).join("");
-  aList.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
-    cb.addEventListener('change', (e)=>{
-      const ix = Number(e.target.getAttribute('data-ix'));
-      marked[ix] = e.target.checked;
-      cardScoreEl.textContent = `${marked.filter(Boolean).length} / 6`;
-      saveState();
-    });
-  });
-  cardScoreEl.textContent = `${marked.filter(Boolean).length} / 6`;
-}
-
-async function fetchTrivia(difficulty){
-  try{
-    const isFile = location.protocol === "file:";
-    if(isFile) return [...LOCAL_FALLBACK];
-    const res = await fetch(`/api/trivia?difficulty=${encodeURIComponent(difficulty)}`);
-    if(!res.ok) throw new Error(`Fel från server (${res.status})`);
-    const data = await res.json();
-    if(!Array.isArray(data) || data.length!==6) throw new Error("Fick inte exakt 6 frågor från AI:n.");
-    data.forEach(d=>{ if(!CATEGORIES.includes(d.c)) d.c = CATEGORIES[Math.floor(Math.random()*CATEGORIES.length)]; });
-    return data;
-  }catch(e){
-    err.hidden=false; err.textContent=(e?.message||"Okänt fel")+" • Visar lokala exempel.";
-    return [...LOCAL_FALLBACK];
-  }
-}
-
-/* ---------- Persistence ---------- */
-function saveState(){
-  const state = { teams, turn, difficulty: diffSel.value, current, marked, timerRunning, timerEndAt };
-  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch{}
-}
-function loadState(){
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if(!raw) return false;
-    const s = JSON.parse(raw);
-    if(!s || !s.teams) return false;
-    teams = s.teams;
-    CATEGORIES.forEach(c=>{
-      teams[0].correct[c] = teams[0].correct[c]||0;
-      teams[0].attempts[c] = teams[0].attempts[c]||0;
-      teams[1].correct[c] = teams[1].correct[c]||0;
-      teams[1].attempts[c] = teams[1].attempts[c]||0;
-    });
-    turn = s.turn===1 ? 1 : 0;
-    if(s.difficulty) diffSel.value = s.difficulty;
-    if(Array.isArray(s.current) && s.current.length===6){
-      current = s.current; marked = Array.isArray(s.marked) && s.marked.length===6 ? s.marked : [false,false,false,false,false,false];
-      renderFront();
-      renderBack();
-      cardScoreEl.textContent = `${marked.filter(Boolean).length} / 6`;
-    }
-    timerRunning = !!s.timerRunning;
-    timerEndAt = s.timerEndAt || 0;
-    if(timerRunning){ resumeTimer(); } else { setCircle(TIMER_DUR); }
-    return true;
-  }catch{ return false; }
-}
-
-/* ---------- Timer UI ---------- */
 function setCircle(msLeft){
   msLeft = Math.max(0, Math.min(TIMER_DUR, msLeft));
   const frac = msLeft / TIMER_DUR;
   const offset = CIRC_PERIM * (1 - frac);
   circProg.style.strokeDasharray = String(CIRC_PERIM);
   circProg.style.strokeDashoffset = String(offset);
-
-  if(msLeft <= 3000){
-    circProg.setAttribute('stroke', 'var(--danger)');
-    timeNum.style.color = 'var(--danger)';
-  } else if(msLeft <= 10000){
-    circProg.setAttribute('stroke', 'var(--warn)');
-    timeNum.style.color = 'var(--warn)';
-  } else {
-    circProg.setAttribute('stroke', 'var(--good)');
-    timeNum.style.color = '#e5e7eb';
-  }
+  if(msLeft <= 3000){ circProg.setAttribute('stroke', 'var(--danger)'); timeNum.style.color = 'var(--danger)'; }
+  else if(msLeft <= 10000){ circProg.setAttribute('stroke', 'var(--warn)'); timeNum.style.color = 'var(--warn)'; }
+  else { circProg.setAttribute('stroke', 'var(--good)'); timeNum.style.color = '#e5e7eb'; }
   timeNum.textContent = Math.ceil(msLeft/1000);
 }
 function tick(){
   const left = timerEndAt - Date.now();
   if(left <= 0){
     setCircle(0);
-    stopTimer(true);
-    beep.currentTime = 0; beep.play().catch(()=>{});
+    if(timerTick) clearInterval(timerTick);
+    timerTick=null; timerRunning=false; timerFinished=true;
+    try{ beep.currentTime=0; beep.play().catch(()=>{});}catch{}
     return;
   }
   setCircle(left);
 }
 function startTimer(){
-  try{ beep.play().then(()=>{beep.pause(); beep.currentTime=0;}).catch(()=>{}); }catch{}
+  if(timerRunning) return;
+  timerFinished=false;
+  try{ beep.play().then(()=>{beep.pause(); beep.currentTime=0;}).catch(()=>{});}catch{}
   timerEndAt = Date.now() + TIMER_DUR;
   if(timerTick) clearInterval(timerTick);
   timerTick = setInterval(tick, 100);
-  timerRunning = true;
-  saveState();
+  timerRunning = true
 }
-function resumeTimer(){
-  if(timerEndAt && timerEndAt > Date.now()){
-    if(timerTick) clearInterval(timerTick);
-    timerTick = setInterval(tick, 100);
-    timerRunning = true;
-    tick();
-  } else {
-    timerRunning = false; setCircle(0);
-  }
-}
-function stopTimer(silent=false){
-  if(timerTick) clearInterval(timerTick);
-  timerTick = null; timerRunning = false; if(!silent) saveState();
-}
-function resetTimer(){
-  timerEndAt = 0; setCircle(TIMER_DUR); saveState();
-}
-
-/* ---------- Stats Modal ---------- */
-function percent(corr, att){ return att ? Math.round((corr/att)*100) : 0; }
-function catClass(c){ return {"Geografi":"geo","Underhållning":"und","Historia":"hist","Konst & litteratur":"art","Natur & vetenskap":"sci","Sport & fritid":"sport"}[c] || "geo"; }
-function catIcon(c){ return `<svg width="14" height="14" aria-hidden="true"><use href="#${CAT_ICON_ID[c]||'geo'}"></use></svg>`; }
-function renderStats(){
-  const html = CATEGORIES.map(cat=>{
-    const p1 = percent(teams[0].correct[cat], teams[0].attempts[cat]);
-    const p2 = percent(teams[1].correct[cat], teams[1].attempts[cat]);
-    const cls = catClass(cat);
-    return `<div class="barRow ${cls}">
-      <div class="barLabel">${catIcon(cat)} ${cat}</div>
-      <div class="bars">
-        <div class="bar"><div class="fill t1" style="width:${p1}%"></div><div class="pct">${p1}%</div></div>
-        <div class="bar"><div class="fill t2" style="width:${p2}%"></div><div class="pct">${p2}%</div></div>
-      </div>
-    </div>`;
-  }).join("");
-  statsBody.innerHTML = html;
-}
-
-/* ---------- Card lifecycle ---------- */
-async function loadNewCard(){
-  current = await fetchTrivia(diffSel.value);
-  marked = [false,false,false,false,false,false];
-  renderFront();
-  renderBack();
-  card.classList.remove('flipped');
-  cardScoreEl.textContent = "0 / 6";
-  updateHeader();
-  applyFade();
-  saveState();
-}
-function commitPointsAndNext(){
-  const lag = teams[turn];
-  current.forEach((item, i)=>{
-    lag.attempts[item.c] = (lag.attempts[item.c]||0) + 1;
-    if(marked[i]) lag.correct[item.c] = (lag.correct[item.c]||0) + 1;
-  });
-  lag.points += marked.filter(Boolean).length;
-  turn = (turn === 0 ? 1 : 0);
-  updateHeader(); // updates button color too
-  stopTimer(true); resetTimer();
-  saveState();
-  loadNewCard();
-}
-
-/* ---------- Next button with long-press ---------- */
-(function setupNextButton(){
-  let pressTimer=null, longPressed=false;
-  const LONG_MS = 800;
-  function startPress(){
-    longPressed=false;
-    // spin icon
-    nextTop.classList.add('spin');
-    setTimeout(()=>nextTop.classList.remove('spin'), 320);
-    pressTimer = setTimeout(()=>{
-      longPressed = true;
-      stopTimer(true); resetTimer();
-      loadNewCard();
-    }, LONG_MS);
-  }
-  function endPress(){
-    if(pressTimer){ clearTimeout(pressTimer); pressTimer=null; }
-    // If not long-pressed, it's a normal click
-    if(!longPressed){
-      loadNewCard();
-    }
-  }
-  // Mouse
-  nextTop.addEventListener('mousedown', startPress);
-  nextTop.addEventListener('mouseup', endPress);
-  nextTop.addEventListener('mouseleave', ()=>{ if(pressTimer){clearTimeout(pressTimer); pressTimer=null;} });
-  // Touch
-  nextTop.addEventListener('touchstart', (e)=>{ e.preventDefault(); startPress(); }, {passive:false});
-  nextTop.addEventListener('touchend', (e)=>{ e.preventDefault(); endPress(); }, {passive:false});
-})();
-
-/* ---------- Events ---------- */
-btnFlip1.addEventListener('click', ()=> card.classList.add('flipped'));
-btnFlip2.addEventListener('click', ()=> card.classList.remove('flipped'));
-btnCommit.addEventListener('click', commitPointsAndNext);
-
-tStart.addEventListener('click', startTimer);
-tStop.addEventListener('click', ()=>{ stopTimer(); });
-tReset.addEventListener('click', resetTimer);
-
-startBtn.addEventListener('click', ()=>{
-  teams[0].name = name1.value.trim() || "Lag 1";
-  teams[1].name = name2.value.trim() || "Lag 2";
-  startMenu.style.display = "none";
-  updateHeader();
-  resetTimer();
-  loadNewCard();
-});
-openStats.addEventListener('click', ()=>{ renderStats(); statsModal.style.display = "flex"; });
-closeStats.addEventListener('click', ()=>{ statsModal.style.display = "none"; });
-
-/* ---------- Init ---------- */
-if(loadState()){
-  startMenu.style.display = "none";
-  updateHeader();
-  if(!Array.isArray(current) || current.length!==6){ loadNewCard(); } else { applyFade(); }
-}else{
-  updateHeader();
-  setCircle(TIMER_DUR);
-}
-</script>
-
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('service-worker.js');
-  });
-}
-</script>
-
-</body>
-</html>
